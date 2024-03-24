@@ -29,4 +29,30 @@ const sendMail = async (email, ticket) =>{
   })
 }
 
+
+export const sendPasswordToResetEmail = async (email,resetToken)=>{
+
+  const resetUrl = `http://localhost:8080/users/reset-password/${resetToken}`;
+
+  const mailOptions = {
+    from: 'Compras <valentinolucero93@gmail.com>',
+    to: email,
+    subject: 'Recuperación de Contraseña',
+    html: `
+      <p>Hemos recibido una solicitud para restablecer la contraseña de tu cuenta.</p>
+      <p>Si no solicitaste esto, puedes ignorar este correo electrónico.</p>
+      <p>Si deseas restablecer tu contraseña, haz clic en el siguiente enlace:</p>
+      <a href="${resetUrl}">${resetUrl}</a>
+      <p>Este enlace expirará en 30 minutos.</p>
+    `
+  };
+
+  try {
+    await transport.sendMail(mailOptions);
+    console.log('Correo electrónico de recuperación de contraseña enviado correctamente.');
+  } catch (error) {
+    console.error('Error al enviar el correo electrónico de recuperación de contraseña:', error);
+  }
+}
+
 export default sendMail

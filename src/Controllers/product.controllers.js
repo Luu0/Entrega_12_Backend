@@ -34,8 +34,9 @@ export const FindProductsByIDController = async (req, res) => {
 
 export const CreateProductController = async (req, res) => {
   try {
-    if(req.session.user.rol==="admin"){
-      const post = await createProduct(req.body);
+    if(req.session.user.rol==="admin" || req.session.user.rol==="premium"){
+      const userEmail = req.session.user.email;
+      const post = await createProduct({...req.body,owner:userEmail});
       res.json({
         post,
         message: "Product created",

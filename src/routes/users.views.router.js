@@ -1,12 +1,14 @@
 import {Router} from 'express'
 import { authMiddlewareAdmin, authMiddlewareUser } from './Custom/authMiddleware.js';
-import { getAllUsers,getUserByIdController} from '../Controllers/user.controller.js';
+import { getAllUsers,getUserByIdController,MakeUserPremium} from '../Controllers/user.controller.js';
 
 const router = Router();
 
 router.get("/allusers",getAllUsers)
 
-router.get("/:uid",getUserByIdController)
+router.get("/find/:uid",getUserByIdController)
+
+router.get("/premium/:uid", authMiddlewareAdmin, MakeUserPremium)
 
 router.get("/login", (req,res)=>{
     res.render('login')
@@ -20,6 +22,13 @@ router.get("/",authMiddlewareUser, (req,res)=>{
     res.render('profile', {user:req.session.user})
 })
 
-// router.put("/premium/:uid",authMiddlewareAdmin,(req))
+router.get('/reset-password/:token', (req, res) => {
+    const token = req.params.token;
+    res.render('reset-password', { token });
+});
+
+router.get('/recover-password', (req, res) => {
+    res.render('recover-password');
+})
 
 export default router

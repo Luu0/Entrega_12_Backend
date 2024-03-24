@@ -37,3 +37,25 @@ export const getUserByIdController = async (req, res) => {
     });
   }
 };
+
+
+export const MakeUserPremium = async (req, res)=>{
+  try{
+    const userId = req.params.uid;
+    const user = await FindById(userId);
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+    user.rol= user.rol === 'user' ? 'premium' : 'user';
+    await user.save();
+
+    res.json({
+      user,
+      message: "User now is premium",
+    });
+
+  }catch (error) {
+    console.error("Error at changing user roll:", error);
+    res.status(500).send("Internal server error");
+  }
+}

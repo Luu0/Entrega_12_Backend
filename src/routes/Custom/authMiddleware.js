@@ -7,7 +7,7 @@ export const authMiddlewareAdmin = (req, res, next) => {
 
   const { rol } = req.session.user;
 
-  if (rol !== 'user') {
+  if (rol === 'user') {
       return res.status(403).json({ message: 'Acceso prohibido. Se requieren permisos de administrador.' });
   }
 

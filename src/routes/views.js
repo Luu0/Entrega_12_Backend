@@ -18,7 +18,7 @@ router.get("/products", async (req,res) => {
 
   res.render("products.hbs", { products, user: userData, welcomeMessage }, (err, html) => {
       if (err) {
-          throw err
+        throw err
       }
     res.send(html)
   })

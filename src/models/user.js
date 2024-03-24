@@ -10,7 +10,14 @@ const schema = new mongoose.Schema({
     unique:true
   },
   age:Number,
-  password:String
+  password:String,
+  rol:{
+    type:String,
+    default:"user",
+    enum: ["user", "admin", "premium"]
+  },
+  resetToken: String,
+  resetTokenExpires: Date
 })
 
 const UserModel = mongoose.model(collection,schema);
